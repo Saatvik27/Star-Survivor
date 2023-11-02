@@ -1,0 +1,117 @@
+import pygame
+import random
+pygame.init()
+screen = pygame.display.set_mode([820, 490])
+pygame.display.set_caption("STAR SURVIVOR")
+x = 190
+y = 305
+vel = 6
+run = True
+pygame.mixer.music.load(r"C:\Users\91981\Downloads\game.wav")
+pygame.mixer.music.play(-1)
+bg=pygame.image.load(r'C:\Users\91981\OneDrive\Desktop\Project Images\projectbg.jpg')
+bg1=pygame.image.load(r'C:\Users\91981\OneDrive\Desktop\Project Images\pro.jpg')
+bgb=pygame.transform.scale(bg1,(800,800))
+roc=pygame.image.load(r'C:\Users\91981\OneDrive\Desktop\Project Images\roc.png')
+sim=pygame.transform.scale(roc,(300,270))
+img=pygame.image.load(r'C:\Users\91981\OneDrive\Desktop\Project Images\ast.png')
+ast=pygame.transform.scale(img,(185,170))
+screen.fill((0,0,0))
+asv1=1
+asv2=7
+lo=[]
+z=-490
+w=-980
+asl=400
+col=0
+numb=10
+diff=1
+locate=[-1400,-1500,-1600,-1700,-1800,-1900,-2000]
+for i in range(numb):
+    location=[-65+col,locate[random.randint(0,6)]]
+    col+=71
+    lo.append(location)
+pygame.time.delay(10)
+clock = pygame.time.Clock()
+font = pygame.font.Font(None, 25)
+font2 = pygame.font.Font(None, 40)
+font3 = pygame.font.Font(None, 60)
+frame_start=3
+frame_count = 0
+frame_rate = 60
+game=True
+while run:
+    pygame.time.delay(15)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+    total_seconds = frame_count // frame_rate
+    ts = frame_count // frame_rate -3
+    minutes = ts // 60
+    seconds = ts % 60
+    output_string = "Time: {0:02}:{1:02} s".format(minutes, seconds)
+    text = font.render(output_string, True,(255,255,255))
+
+    time_left=frame_start-total_seconds
+    output_string2 = "Game starts in : {0} seconds".format(time_left)
+    text2 = font2.render(output_string2, True,(255,255,255))
+    frame_count += 1
+    clock.tick(frame_rate)
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT] and x>-130:
+        x -= vel
+    if keys[pygame.K_RIGHT] and x<530:
+        x += vel
+    if time_left >-1 and game==True:
+        screen.blit(bgb, [0,0])
+        screen.blit(text2, [200,200])
+    if time_left<1 and game==True:
+        screen.blit(bgb,(150,0))
+        screen.blit(bg,(0,0))
+        screen.blit(bg,(0,z))
+        screen.blit(bg,(0,w))
+        screen.blit(text, [710, 0])
+        screen.blit(sim,(x,y))
+    lo[0][1]+=random.randrange(asv1,asv2,diff)
+    lo[1][1]+=random.randrange(asv1,asv2,diff)
+    lo[2][1]+=random.randrange(asv1,asv2,diff)
+    lo[3][1]+=random.randrange(asv1,asv2,diff)
+    lo[4][1]+=random.randrange(asv1,asv2,diff)
+    lo[5][1]+=random.randrange(asv1,asv2,diff)
+    lo[6][1]+=random.randrange(asv1,asv2,diff)
+    lo[7][1]+=random.randrange(asv1,asv2,diff)
+    lo[8][1]+=random.randrange(asv1,asv2,diff)
+    lo[9][1]+=random.randrange(asv1,asv2,diff)
+    widr=105
+    widl=15
+    z+=1
+    w+=1
+    if z==490:
+        z=-490
+    if w==490:
+        w=-490
+    if game==True and time_left<1:
+        for i in range (numb):
+            screen.blit(ast,lo[i])
+            if lo[i][1]==asl or lo[i][1]>=asl:
+                lo[i][1]=locate[random.randint(0,6)]
+
+    go="GAME OVER"
+    text3 = font3.render(go, True,(255,255,255))
+
+    if (lo[0][0]>=x+widl and lo[0][0]<=x+widr)  and (lo[0][1]>=y or lo[0][1]==y) or\
+     (lo[1][0]>=x+widl and lo[1][0]<=x+widr)  and (lo[1][1]>=y or lo[1][1]==y) or\
+     (lo[2][0]>=x+widl and lo[2][0]<=x+widr)  and (lo[2][1]>=y or lo[2][1]==y) or\
+     (lo[3][0]>=x+widl and lo[3][0]<=x+widr)  and (lo[3][1]>=y or lo[3][1]==y) or\
+     (lo[4][0]>=x+widl and lo[4][0]<=x+widr)  and (lo[4][1]>=y or lo[4][1]==y) or\
+     (lo[5][0]>=x+widl and lo[5][0]<=x+widr)  and (lo[5][1]>=y or lo[5][1]==y) or\
+     (lo[6][0]>=x+widl and lo[6][0]<=x+widr)  and (lo[6][1]>=y or lo[6][1]==y) or\
+        (lo[7][0]>=x+widl and lo[7][0]<=x+widr)  and (lo[7][1]>=y or lo[7][1]==y) or\
+        (lo[8][0]>=x+widl and lo[8][0]<=x+widr)  and (lo[8][1]>=y or lo[8][1]==y) or\
+     (lo[9][0]>=x+widl and lo[9][0]<=x+widr)  and (lo[9][1]>=y or lo[9][1]==y) :
+        game=False
+        screen.blit(bgb,(-100,0))
+        screen.blit(text3,(200,200))
+    #print(lo[0][0],lo[1][0],lo[2][0],lo[3][0],lo[4][0],lo[5][0],lo[6][0],lo[7][0],lo[8][0],lo[9][0],x+widl,x+widr)
+    pygame.display.update()
+pygame.quit()
